@@ -2,14 +2,32 @@
 
 declare(strict_types=1);
 
-namespace OCA\Deck\Migration;
+namespace OCA\KMAUserManager\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-class Version10000DATE20221224124822 extends SimpleMigrationStep {
+/**
+ * Auto-generated migration step: Please modify to your needs!
+ */
+class Version1000Date20221229181522 extends SimpleMigrationStep {
+
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 */
+	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
+	}
+
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 * @return null|ISchemaWrapper
+	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
@@ -17,7 +35,6 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 		if (!$schema->hasTable('canbo')){
 			$table = $schema->createTable('canbo');
 			$table->addColumn('id', 'integer', [
-				'autoincreement' => true,
 				'notnull' => true,
 				'length' => 4
 			]);
@@ -35,7 +52,7 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 				'unsigned' => true,
 			]);
 			$table->addColumn('gioi_tinh', 'boolean', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 64
 			]);
 			$table->addColumn('sdt', 'string', [
@@ -58,16 +75,16 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 255
 			]);
-			$table->addColumn('luong_co_so', 'float8', [
+			$table->addColumn('luong_co_so', 'integer', [
 				'notnull' => false
 			]);
-			$table->addColumn('he_so_luong', 'float8', [
+			$table->addColumn('he_so_luong', 'integer', [
 				'notnull' => false
 			]);
 			$table->addColumn('bac_thue', 'integer', [
 				'notnull' => false
 			]);
-			$table->addColumn('luong', 'float8', [
+			$table->addColumn('luong', 'integer', [
 				'notnull' => false
 			]);
 			$table->addColumn('quan_he_gd', 'string', [
@@ -80,7 +97,6 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 		if (!$schema->hasTable('nguoithan')) {
 			$table = $schema->createTable('nguoithan');
 			$table->addColumn('id', 'integer', [
-				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
 			]);
@@ -102,7 +118,7 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 				'unsigned' => true,
 			]);
 			$table->addColumn('gioi_tinh', 'boolean', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 64
 			]);
 			$table->addColumn('sdt', 'string', [
@@ -127,7 +143,6 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 		if (!$schema->hasTable('hopdong')) {
 			$table = $schema->createTable('hopdong');
 			$table->addColumn('id', 'integer', [
-				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
 			]);
@@ -157,7 +172,7 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 				'notnull' => true
 			]);
 			$table->addColumn('trang_thai', 'boolean', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 64
 			]);
 			$table->setPrimaryKey(['id']);
@@ -166,7 +181,6 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 		if (!$schema->hasTable('nghiphep')) {
 			$table = $schema->createTable('nghiphep');
 			$table->addColumn('id', 'integer', [
-				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
 			]);
@@ -195,7 +209,7 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 				'notnull' => true
 			]);
 			$table->addColumn('trang_thai', 'boolean', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 64
 			]);
 			$table->setPrimaryKey(['id']);
@@ -204,7 +218,6 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 		if (!$schema->hasTable('cong')) {
 			$table = $schema->createTable('cong');
 			$table->addColumn('id', 'integer', [
-				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
 			]);
@@ -218,7 +231,7 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 				'unsigned' => true,
 			]);
 			$table->addColumn('trang_thai', 'boolean', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 64
 			]);
 			$table->setPrimaryKey(['id']);
@@ -227,7 +240,6 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 		if (!$schema->hasTable('quatrinhdaotao')) {
 			$table = $schema->createTable('quatrinhdaotao');
 			$table->addColumn('id', 'integer', [
-				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
 			]);
@@ -270,7 +282,7 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 				'length' => 255
 			]);
 			$table->addColumn('trang_thai', 'boolean', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 64
 			]);
 			$table->setPrimaryKey(['id']);
@@ -279,7 +291,6 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 		if (!$schema->hasTable('quatricongtac')) {
 			$table = $schema->createTable('quatricongtac');
 			$table->addColumn('id', 'integer', [
-				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
 			]);
@@ -318,12 +329,20 @@ class Version10000DATE20221224124822 extends SimpleMigrationStep {
 				'length' => 255
 			]);
 			$table->addColumn('trang_thai', 'boolean', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 64
 			]);
 			$table->setPrimaryKey(['id']);
 		}
 
 		return $schema;
+	}
+
+	/**
+	 * @param IOutput $output
+	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
+	 * @param array $options
+	 */
+	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 	}
 }
