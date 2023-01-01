@@ -9,7 +9,45 @@
  */
 return [
     'routes' => [
+        
 	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+	   ['name' => 'page#add', 'url' => '/add', 'verb' => 'GET'],
 	   ['name' => 'page#do_echo', 'url' => '/echo', 'verb' => 'POST'],
+    ],
+
+    'ocs' => [
+        // apis
+		[
+			'name' => 'user#users',
+			'url' => '/api/v1/users/{path}',
+			'verb' => 'GET',
+			'requirements' => [
+				'path' => '.*',
+			]
+		],
+        [
+			'name' => 'user#users',
+			'url' => '/api/v1/users/',
+			'verb' => 'POST',
+			'requirements' => [
+				'path' => '.*',
+			]
+		],
+        [
+			'name' => 'user#users',
+			'url' => '/api/v1/users/',
+			'verb' => 'PUT',
+			'requirements' => [
+				'path' => '.*',
+			]
+		],
+        [
+			'name' => 'user#users',
+			'url' => '/api/v1/users/',
+			'verb' => 'DELETE',
+			'requirements' => [
+				'path' => '.*',
+			]
+		],
     ]
 ];

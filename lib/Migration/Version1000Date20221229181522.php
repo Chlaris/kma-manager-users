@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OCA\KMAUserManager\Migration;
 
 use Closure;
+use Doctrine\DBAL\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -32,32 +33,33 @@ class Version1000Date20221229181522 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('canbo')){
-			$table = $schema->createTable('canbo');
-			$table->addColumn('id', 'integer', [
+		if (!$schema->hasTable('kma_canbo')){
+			$table = $schema->createTable('kma_canbo');
+			$table->addColumn('username', 'string', [
 				'notnull' => true,
-				'length' => 4
+				'length' => 64
 			]);
-			$table->addColumn('ma_cb', 'string', [
-				'notnull' => true,
+			$table->addColumn('ma_cv', 'string', [
+				'notnull' => false,
+				'length' => 64
+			]);
+			$table->addColumn('ma_pb', 'string', [
+				'notnull' => false,
 				'length' => 64
 			]);
 			$table->addColumn('ho_ten', 'string', [
 				'notnull' => true,
 				'length' => 64
 			]);
-			$table->addColumn('date', 'bigint', [
-				'notnull' => false,
-				'length' => 8,
-				'unsigned' => true,
+			$table->addColumn('ngay_sinh', 'datetime', [
+				'notnull' => false
 			]);
 			$table->addColumn('gioi_tinh', 'boolean', [
-				'notnull' => false,
-				'length' => 64
+				'notnull' => false
 			]);
 			$table->addColumn('sdt', 'string', [
 				'notnull' => true,
-				'length' => 255
+				'length' => 20
 			]);
 			$table->addColumn('dia_chi', 'string', [
 				'notnull' => true,
@@ -71,62 +73,36 @@ class Version1000Date20221229181522 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 255
 			]);
-			$table->addColumn('chuc_vu', 'string', [
-				'notnull' => true,
-				'length' => 255
-			]);
-			$table->addColumn('luong_co_so', 'integer', [
-				'notnull' => false
-			]);
-			$table->addColumn('he_so_luong', 'integer', [
-				'notnull' => false
-			]);
-			$table->addColumn('bac_thue', 'integer', [
-				'notnull' => false
-			]);
-			$table->addColumn('luong', 'integer', [
-				'notnull' => false
-			]);
-			$table->addColumn('quan_he_gd', 'string', [
-				'notnull' => false,
-				'length' => 255
-			]);
-			$table->setPrimaryKey(['id']);
+			$table->setPrimaryKey(['username']);
 		}
 
-		if (!$schema->hasTable('nguoithan')) {
-			$table = $schema->createTable('nguoithan');
-			$table->addColumn('id', 'integer', [
+		if (!$schema->hasTable('kma_nguoithan')) {
+			$table = $schema->createTable('kma_nguoithan');
+			$table->addColumn('username', 'string', [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 64,
 			]);
 			$table->addColumn('ma_nt', 'string', [
 				'notnull' => true,
 				'length' => 64
 			]);
-			$table->addColumn('cb_id', 'integer', [
-				'notnull' => true,
-				'length' => 4
-			]);
 			$table->addColumn('ho_ten', 'string', [
 				'notnull' => true,
 				'length' => 64,
 			]);
-			$table->addColumn('ngay_sinh', 'bigint', [
-				'notnull' => false,
-				'length' => 8,
-				'unsigned' => true,
+			$table->addColumn('ngay_sinh', 'datetime', [
+				'notnull' => false
 			]);
-			$table->addColumn('gioi_tinh', 'boolean', [
+			$table->addColumn('gioi_tinh', 'string', [
 				'notnull' => false,
-				'length' => 64
+				'length' => 3
 			]);
 			$table->addColumn('sdt', 'string', [
-				'notnull' => true,
-				'length' => 255
+				'notnull' => false,
+				'length' => 20
 			]);
 			$table->addColumn('dia_chi', 'string', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 255
 			]);
 			$table->addColumn('nghe_nghiep', 'string', [
@@ -137,70 +113,53 @@ class Version1000Date20221229181522 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 255
 			]);
-			$table->setPrimaryKey(['id']);
+			$table->setPrimaryKey(['ma_nt']);
 		}
 
-		if (!$schema->hasTable('hopdong')) {
-			$table = $schema->createTable('hopdong');
-			$table->addColumn('id', 'integer', [
-				'notnull' => true,
-				'length' => 4,
-			]);
+		if (!$schema->hasTable('kma_hopdong')) {
+			$table = $schema->createTable('kma_hopdong');
 			$table->addColumn('ma_hd', 'string', [
 				'notnull' => true,
 				'length' => 64
 			]);
-			$table->addColumn('cb_id', 'integer', [
+			$table->addColumn('username', 'string', [
 				'notnull' => true,
-				'length' => 4
+				'length' => 64
 			]);
 			$table->addColumn('ten_hd', 'string', [
 				'notnull' => true,
-				'length' => 64,
-			]);
-			$table->addColumn('ngay_ky', 'bigint', [
-				'notnull' => false,
-				'length' => 8,
-				'unsigned' => true,
-			]);
-			$table->addColumn('ngay_het_han', 'bigint', [
-				'notnull' => false,
-				'length' => 8,
-				'unsigned' => true,
-			]);
-			$table->addColumn('mo_ta', 'string', [
-				'notnull' => true
-			]);
-			$table->addColumn('trang_thai', 'boolean', [
-				'notnull' => false,
 				'length' => 64
 			]);
-			$table->setPrimaryKey(['id']);
+			$table->addColumn('ngay_bat_dau', 'datetime', [
+				'notnull' => false
+			]);
+			$table->addColumn('ngay_het_han', 'datetime', [
+				'notnull' => false
+			]);
+			$table->addColumn('mo_ta', 'string', [
+				'notnull' => false
+			]);
+			$table->addColumn('trang_thai', 'boolean', [
+				'notnull' => false
+			]);
+			$table->setPrimaryKey(['ma_hd']);
 		}
 
-		if (!$schema->hasTable('nghiphep')) {
-			$table = $schema->createTable('nghiphep');
-			$table->addColumn('id', 'integer', [
+		if (!$schema->hasTable('kma_nghiphep')) {
+			$table = $schema->createTable('kma_nghiphep');
+			$table->addColumn('username', 'string', [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 64,
 			]);
 			$table->addColumn('ma_np', 'string', [
 				'notnull' => true,
 				'length' => 64
 			]);
-			$table->addColumn('cb_id', 'integer', [
-				'notnull' => true,
-				'length' => 4
+			$table->addColumn('ngay_bat_dau', 'datetime', [
+				'notnull' => false
 			]);
-			$table->addColumn('ngay_bat_dau', 'bigint', [
-				'notnull' => false,
-				'length' => 8,
-				'unsigned' => true,
-			]);
-			$table->addColumn('ngay_ket_thuc', 'bigint', [
-				'notnull' => false,
-				'length' => 8,
-				'unsigned' => true,
+			$table->addColumn('ngay_ket_thuc', 'datetime', [
+				'notnull' => false
 			]);
 			$table->addColumn('so_ngay_nghi', 'integer', [
 				'notnull' => false
@@ -209,108 +168,104 @@ class Version1000Date20221229181522 extends SimpleMigrationStep {
 				'notnull' => true
 			]);
 			$table->addColumn('trang_thai', 'boolean', [
-				'notnull' => false,
-				'length' => 64
+				'notnull' => false
 			]);
-			$table->setPrimaryKey(['id']);
+			$table->setPrimaryKey(['ma_np']);
 		}
 
-		if (!$schema->hasTable('cong')) {
-			$table = $schema->createTable('cong');
-			$table->addColumn('id', 'integer', [
+		if (!$schema->hasTable('kma_cong')) {
+			$table = $schema->createTable('kma_cong');
+			$table->addColumn('ma_cong', 'string', [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 64,
 			]);
-			$table->addColumn('cb_id', 'integer', [
+			$table->addColumn('username', 'string', [
 				'notnull' => true,
-				'length' => 4
+				'length' => 64
 			]);
-			$table->addColumn('ngay', 'bigint', [
-				'notnull' => false,
-				'length' => 8,
-				'unsigned' => true,
+			$table->addColumn('ngay', 'datetime', [
+				'notnull' => false
 			]);
 			$table->addColumn('trang_thai', 'boolean', [
-				'notnull' => false,
-				'length' => 64
+				'notnull' => false
 			]);
-			$table->setPrimaryKey(['id']);
+			$table->setPrimaryKey(['ma_cong']);
 		}
 
-		if (!$schema->hasTable('quatrinhdaotao')) {
-			$table = $schema->createTable('quatrinhdaotao');
-			$table->addColumn('id', 'integer', [
+		if (!$schema->hasTable('kma_daotao')) {
+			$table = $schema->createTable('kma_daotao');
+			$table->addColumn('ma_dt', 'string', [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 64,
 			]);
-			$table->addColumn('ma_qt_dt', 'string', [
+			$table->addColumn('ten', 'string', [
 				'notnull' => true,
 				'length' => 64
 			]);
-			$table->addColumn('cb_id', 'integer', [
+			$table->addColumn('yeu_cau', 'string', [
+				'notnull' => true
+			]);
+			$table->addColumn('chuyen_nganh', 'string', [
 				'notnull' => true,
-				'length' => 4
+				'length' => 64
 			]);
-			$table->addColumn('ngay_bat_dau', 'bigint', [
-				'notnull' => false,
-				'length' => 8,
-				'unsigned' => true,
+			$table->addColumn('hinh_thuc_dt', 'string', [
+				'notnull' => true,
+				'length' => 64
 			]);
-			$table->addColumn('ngay_tot_nghiep', 'bigint', [
-				'notnull' => false,
-				'length' => 8,
-				'unsigned' => true,
+			$table->addColumn('van_bang', 'string', [
+				'notnull' => true,
+				'length' => 64
+			]);
+			$table->setPrimaryKey(['ma_dt']);
+		}
+
+		if (!$schema->hasTable('kma_qtdaotao')) {
+			$table = $schema->createTable('kma_qtdaotao');
+			$table->addColumn('ma_qt_dt', 'string', [
+				'notnull' => true,
+				'length' => 64,
+			]);
+			$table->addColumn('username', 'string', [
+				'notnull' => true,
+				'length' => 64,
+			]);
+			$table->addColumn('ma_dt', 'string', [
+				'notnull' => true,
+				'length' => 64,
+			]);
+			$table->addColumn('ket_qua', 'string', [
+				'notnull' => true,
+				'length' => 64
+			]);
+			$table->addColumn('ngay_bat_dau', 'datetime', [
+				'notnull' => false
+			]);
+			$table->addColumn('ngay_ket_thuc', 'datetime', [
+				'notnull' => false
 			]);
 			$table->addColumn('dia_diem', 'string', [
 				'notnull' => true,
 				'length' => 255
 			]);
-			$table->addColumn('chuyen_nganh', 'string', [
-				'notnull' => true,
-				'length' => 255
-			]);
-			$table->addColumn('hinh_thuc_dt', 'string', [
-				'notnull' => true,
-				'length' => 255
-			]);
-			$table->addColumn('van_bang', 'string', [
-				'notnull' => true,
-				'length' => 255
-			]);
-			$table->addColumn('ket_qua', 'string', [
-				'notnull' => true,
-				'length' => 255
-			]);
-			$table->addColumn('trang_thai', 'boolean', [
-				'notnull' => false,
-				'length' => 64
-			]);
-			$table->setPrimaryKey(['id']);
+			$table->setPrimaryKey(['ma_qt_dt']);
 		}
 
-		if (!$schema->hasTable('quatricongtac')) {
-			$table = $schema->createTable('quatricongtac');
-			$table->addColumn('id', 'integer', [
+		if (!$schema->hasTable('kma_qtcongtac')) {
+			$table = $schema->createTable('kma_qtcongtac');
+			$table->addColumn('username', 'string', [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 64,
 			]);
 			$table->addColumn('ma_qt_ct', 'string', [
 				'notnull' => true,
 				'length' => 64
 			]);
-			$table->addColumn('cb_id', 'integer', [
-				'notnull' => true,
-				'length' => 4
+			$table->addColumn('ngay_bat_dau', 'datetime', [
+				'notnull' => false
 			]);
-			$table->addColumn('ngay_bat_dau', 'bigint', [
-				'notnull' => false,
-				'length' => 8,
-				'unsigned' => true,
-			]);
-			$table->addColumn('ngay_ket_thuc', 'bigint', [
-				'notnull' => false,
-				'length' => 8,
-				'unsigned' => true,
+			$table->addColumn('ngay_ket_thuc', 'datetime', [
+				'notnull' => false
 			]);
 			$table->addColumn('co_quan', 'string', [
 				'notnull' => true,
@@ -320,19 +275,85 @@ class Version1000Date20221229181522 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 255
 			]);
-			$table->addColumn('phong_ban', 'string', [
-				'notnull' => true,
-				'length' => 255
-			]);
-			$table->addColumn('chuc_vu', 'string', [
-				'notnull' => true,
-				'length' => 255
-			]);
 			$table->addColumn('trang_thai', 'boolean', [
+				'notnull' => false
+			]);
+			$table->setPrimaryKey(['ma_qt_ct']);
+		}
+
+		if (!$schema->hasTable('kma_luong')) {
+			$table = $schema->createTable('kma_luong');
+			$table->addColumn('username', 'string', [
+				'notnull' => true,
+				'length' => 64,
+			]);
+			$table->addColumn('ma_luong', 'string', [
+				'notnull' => true,
+				'length' => 64
+			]);
+			$table->addColumn('ngay_cong', 'smallint', [
+				'notnull' => false
+			]);
+			$table->addColumn('ngay_np', 'smallint', [
+				'notnull' => false
+			]);
+			$table->addColumn('luong_co_so', 'float', [
+				'notnull' => false
+			]);
+			$table->addColumn('he_so_luong', 'float', [
+				'notnull' => false
+			]);
+			$table->addColumn('phu_cap', 'float', [
+				'notnull' => false
+			]);
+			$table->setPrimaryKey(['ma_luong']);
+		}
+
+		if (!$schema->hasTable('kma_chucvu')) {
+			$table = $schema->createTable('kma_chucvu');
+			$table->addColumn('ma_cv', 'string', [
+				'notnull' => true,
+				'length' => 64
+			]);
+			$table->addColumn('ten_cv', 'string', [
+				'notnull' => false,
+				'length' => 255
+			]);
+			$table->addColumn('them', 'boolean', [
+				'notnull' => false
+			]);
+			$table->addColumn('xoa', 'boolean', [
+				'notnull' => false
+			]);
+			$table->addColumn('sua', 'boolean', [
+				'notnull' => false
+			]);
+			$table->setPrimaryKey(['ma_cv']);
+		}
+
+		if (!$schema->hasTable('kma_phongban')) {
+			$table = $schema->createTable('kma_phongban');
+			$table->addColumn('groupid', 'string', [
 				'notnull' => false,
 				'length' => 64
 			]);
-			$table->setPrimaryKey(['id']);
+			$table->addColumn('ma_pb', 'string', [
+				'notnull' => true,
+				'length' => 64
+			]);
+			$table->addColumn('ten_pb', 'string', [
+				'notnull' => false,
+				'length' => 255
+			]);
+			$table->addColumn('sdt', 'string', [
+				'notnull' => false,
+				'length' => 20
+			]);
+			$table->addColumn('dia_chi', 'string', [
+				'notnull' => false,
+				'length' => 255
+			]);
+			$table->setPrimaryKey(['ma_pb']);
 		}
 
 		return $schema;

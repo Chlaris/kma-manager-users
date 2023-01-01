@@ -28,4 +28,8 @@ class PageController extends Controller {
 		return new TemplateResponse('kmausermanager', 'index');  // templates/index.php
 	}
 
+	public function add() {
+		return new TemplateResponse('kmausermanager', 'index');  // templates/index.php
+	}
+
 }
