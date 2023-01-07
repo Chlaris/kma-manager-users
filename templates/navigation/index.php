@@ -1,7 +1,7 @@
 <ul>
 <?php if("")
 ?>
-	<li><a href="#">Chấm công</a></li>
+	<!-- <li><a href="#">Chấm công</a></li> -->
 	<li>
 		<a href="#">Quản lý đạo tạo</a>
 		<ul>

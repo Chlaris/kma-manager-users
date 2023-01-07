@@ -1,5 +1,5 @@
 <?php
-namespace OCA\KMAUserManager\Controller\UserController;
+namespace OCA\KMAUserManager\Controller\CanboController;
 
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -9,8 +9,9 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
 use OCA\KMAUserManager\Db\KMA_Canbo as CanboEntity;
 use OCA\KMAUserManager\Db\KMA_CanboMapper;
+use OCP\AppFramework\Http\Response;
 
-class UserController extends Controller {
+class CanboController extends Controller {
 	private $userId;
     /** @var KMA_CanboMapper */
 	private $mapper;
@@ -27,9 +28,11 @@ class UserController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function users(string $path = ''): JSONResponse {
+	public function getCanbo(string $path = ''): JSONResponse {
+		// $canbo = $this->canboSession->getCanbo();
+		// $canbo = [];
 		// return $this->mapper->findAll();
         return null;
-	}
-
+		// return new DataResponse(['canbo' => $canbo]);
+	}	
 }
